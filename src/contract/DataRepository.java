@@ -4,6 +4,15 @@ import DTO.Customer;
 import DTO.Departure;
 import DTO.Reservation;
 import DTO.Route;
+import ETO.CouldNotChangeReservationError;
+import ETO.CouldNotCreateReservationError;
+import ETO.CouldNotFindCustomerError;
+import ETO.CouldNotFindDepartureError;
+import ETO.CouldNotFindRouteError;
+import ETO.NoDeparturesFoundError;
+import ETO.NoReservationFoundError;
+import ETO.NoReservationsFoundError;
+import ETO.NoRoutesFoundError;
 import java.util.List;
 
 /*
@@ -16,13 +25,16 @@ import java.util.List;
  * @author Anders
  */
 public interface DataRepository {
-    public List<Reservation> getReservations(int customerId);
-    public Reservation getReservation(int reservationId);
-    public boolean makeReservation(Reservation reservation);
-    public boolean changeReservation(Reservation reservation);
-    public List<Route> getAllRoutes();
-    public Route getRoute(int routeId);
-    public List<Departure> getSchedule();
-    public Departure getDeparture(int departureId);
-    public Customer getCustomer(int customerId);
+    public List<Reservation> getReservations(int customerId) throws NoReservationsFoundError;
+    public Reservation getReservation(int reservationId) throws NoReservationFoundError;
+    public void makeReservation(Reservation reservation) throws CouldNotCreateReservationError;
+    public void changeReservation(Reservation reservation) throws CouldNotChangeReservationError;
+    
+    public List<Route> getAllRoutes() throws NoRoutesFoundError;
+    public Route getRoute(int routeId) throws CouldNotFindRouteError;
+    
+    public List<Departure> getSchedule() throws NoDeparturesFoundError;
+    public Departure getDeparture(int departureId) throws CouldNotFindDepartureError;
+    
+    public Customer getCustomer(int customerId) throws CouldNotFindCustomerError;
 }
